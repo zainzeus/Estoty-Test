@@ -13,7 +13,7 @@ namespace Code.Gameplay.Movement.Behaviours
 		private Rigidbody2D _rigidbody;
 		private IMovementDirectionProvider _movementDirectionProvider;
 		private Stats _stats;
-
+		private bool isBouncing;
 		public Vector2 Velocity { get; private set; }
 
 		private void Awake()
@@ -25,6 +25,8 @@ namespace Code.Gameplay.Movement.Behaviours
 
 		private void FixedUpdate()
 		{
+
+			if (isBouncing) return;
 			CalculateVelocity();
 			_rigidbody.velocity = Velocity;
 		}
@@ -34,6 +36,18 @@ namespace Code.Gameplay.Movement.Behaviours
 			Vector2 direction = _movementDirectionProvider.GetDirection();
 			float speed = _stats.GetStat(StatType.MovementSpeed);
 			Velocity = direction * speed;
+		}
+
+		public void ChangeDirection(Vector2 dir)
+        {
+			_movementDirectionProvider.SetDirection(dir);
+			isBouncing = true;
+
+			float speed = _stats.GetStat(StatType.MovementSpeed);
+			Velocity = dir.normalized * speed;
+			_rigidbody.velocity = Velocity;
+
+			Debug.Log("Bounce direction set to: " + dir);
 		}
 	}
 }

@@ -92,7 +92,7 @@ namespace Code.UI
 
 		private void HandleLevelUp()
 		{
-			_levelUpWindow.ShowLevelUpChoices();
+			_levelUpWindow.ShowLevelUpChoices(_heroProvider.Hero.gameObject);
 		}
 
 		#endregion

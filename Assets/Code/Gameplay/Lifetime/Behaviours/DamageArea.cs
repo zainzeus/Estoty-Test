@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Code.Gameplay.Identification.Behaviours;
+using Code.Gameplay.Projectiles.Behaviours;
 using Code.Gameplay.Teams.Behaviours;
 using Code.Gameplay.UnitStats;
 using Code.Gameplay.UnitStats.Behaviours;
@@ -57,16 +58,29 @@ namespace Code.Gameplay.Lifetime.Behaviours
 		{
 			float damage = _stats.GetStat(StatType.Damage);
 			health.ApplyDamage(damage);
-			
+
 			if (health.TryGetComponent(out Id id))
 			{
-				if (_damagedTargetIds.Contains(id.Value) == false)
+				if (!_damagedTargetIds.Contains(id.Value))
 				{
 					_damagedTargetIds.Add(id.Value);
 				}
 			}
-			
+
 			OnDamageApplied?.Invoke(health);
+
+			if (TryGetComponent(out Projectile projectile))
+			{
+				if (projectile.CanBounce() && !projectile.HasBounced())
+				{
+					projectile.MarkBounced();
+					_damagedTargetIds.Clear();
+					return; 
+				}
+			}
+
+			Destroy(gameObject, 0.1f);
+
 		}
 	}
 }

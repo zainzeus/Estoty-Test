@@ -18,6 +18,9 @@ namespace Code.Gameplay.Lifetime.Behaviours
 		public event Action<float> OnHealthChanged;
 		public event Action OnDeath;
 
+		private float _healingMultiplier = 1f;
+
+
 		private void Awake()
 		{
 			_stats = GetComponent<Stats>();
@@ -51,10 +54,8 @@ namespace Code.Gameplay.Lifetime.Behaviours
 
 		public void Heal(float healAmount)
 		{
-			float change = Mathf.Clamp(healAmount, 0, MaxHealth - CurrentHealth);
-			CurrentHealth += change;
-			
-			OnHealthChanged?.Invoke(change);
+			float finalAmount = healAmount * _healingMultiplier;
+			CurrentHealth = Mathf.Min(CurrentHealth + finalAmount, MaxHealth);
 		}
 
 		private void HandleStatChanged(StatType statType, float value)
@@ -63,6 +64,11 @@ namespace Code.Gameplay.Lifetime.Behaviours
 			{
 				MaxHealth = value;
 			}
+		}
+
+		public void SetHealingMultiplier(float multiplier)
+		{
+			_healingMultiplier = multiplier;
 		}
 	}
 }

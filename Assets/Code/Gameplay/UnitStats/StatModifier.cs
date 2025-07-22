@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Code.Gameplay.UnitStats
 {
-	public readonly struct StatModifier
+	public  struct StatModifier
 	{
-		public readonly StatType LinkedStatType;
-		public readonly float Value;
+		public  StatType LinkedStatType;
+		public  float Value;
 
 		public StatModifier(StatType linkedStatType, float value)
 		{

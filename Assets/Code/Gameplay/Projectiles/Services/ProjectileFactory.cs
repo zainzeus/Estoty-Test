@@ -1,4 +1,5 @@
 using Code.Gameplay.Identification.Behaviours;
+using Code.Gameplay.Lifetime.Behaviours;
 using Code.Gameplay.Movement.Behaviours;
 using Code.Gameplay.Projectiles.Behaviours;
 using Code.Gameplay.Teams;
@@ -28,7 +29,7 @@ namespace Code.Gameplay.Projectiles.Services
 			_assetsService = assetsService;
 		}
 		
-		public Projectile CreateProjectile(Vector3 at, Vector2 direction, TeamType teamType, float damage, float movementSpeed)
+		public Projectile CreateProjectile(Vector3 at, Vector2 direction, TeamType teamType, float damage, float movementSpeed, bool canBounce = false)
 		{
 			var prefab = _assetsService.LoadAssetFromResources<Projectile>("Projectiles/Projectile");
 			Projectile projectile = _instantiateService.InstantiatePrefabForComponent(prefab, at, Quaternion.FromToRotation(Vector3.up, direction));
@@ -45,7 +46,14 @@ namespace Code.Gameplay.Projectiles.Services
 			
 			projectile.GetComponent<IMovementDirectionProvider>()
 				.SetDirection(direction);
-			
+
+			projectile.SetCanBounce(canBounce);
+			if (canBounce)
+			{
+				Object.Destroy(projectile.GetComponent<DestroyOnDamageApplied>());
+				projectile.gameObject.AddComponent<BounceOnDamageApplied>();
+			}
+
 			return projectile;
 		}
 	}

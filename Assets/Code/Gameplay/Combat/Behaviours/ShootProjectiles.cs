@@ -20,6 +20,10 @@ namespace Code.Gameplay.Combat.Behaviours
 
 		private float _shootCooldownTimeLeft;
 
+		private bool _bouncingEnabled = false;
+
+		public void EnableBouncing() => _bouncingEnabled = true;
+
 		[Inject]
 		private void Construct(IProjectileFactory projectileFactory)
 		{
@@ -55,7 +59,8 @@ namespace Code.Gameplay.Combat.Behaviours
 				_aimDirectionProvider.GetAimDirection(), 
 				_ownerTeam.Type, 
 				_ownerStats.GetStat(StatType.Damage), 
-				_ownerStats.GetStat(StatType.ProjectileSpeed));
+				_ownerStats.GetStat(StatType.ProjectileSpeed),
+				_bouncingEnabled);
 		}
 	}
 }

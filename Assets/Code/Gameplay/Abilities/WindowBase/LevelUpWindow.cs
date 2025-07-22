@@ -12,11 +12,12 @@ namespace Code.Gameplay.Abilities.Behaviours
         [SerializeField] private List<AbilityCardUI> _cardUIs;
 
         private HashSet<AbilityType> _alreadyGained = new();
-
+        private GameObject _hero;
         public override bool IsUserCanClose => false;
 
-        public void ShowLevelUpChoices()
+        public void ShowLevelUpChoices(GameObject hero)
         {
+            _hero = hero;
             gameObject.SetActive(true);
 
             var availableCards = _allCards
@@ -36,7 +37,7 @@ namespace Code.Gameplay.Abilities.Behaviours
             if (chosenCard.CanOnlyBeGainedOnce)
                 _alreadyGained.Add(chosenCard.AbilityType);
 
-            AbilitySystem.Apply(chosenCard.AbilityType);
+            AbilitySystem.Apply(chosenCard.AbilityType, _hero);
             gameObject.SetActive(false);
         }
     }

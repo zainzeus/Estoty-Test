@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c82ae47e76c1004a8138a19fb43f6f7, type: 3}
   m_Name: HealthPotionBoost
   m_EditorClassIdentifier: 
-  Title: Health Potion
+  Title: Potion
   Description: 
   Icon: {fileID: 934571490, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   AbilityType: 0
-  CanOnlyBeGainedOnce: 0
+  CanOnlyBeGainedOnce: 1

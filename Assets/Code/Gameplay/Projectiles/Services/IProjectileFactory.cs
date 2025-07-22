@@ -6,6 +6,6 @@ namespace Code.Gameplay.Projectiles.Services
 {
 	public interface IProjectileFactory
 	{
-		Projectile CreateProjectile(Vector3 at, Vector2 direction, TeamType teamType, float damage, float movementSpeed);
+		Projectile CreateProjectile(Vector3 at, Vector2 direction, TeamType teamType, float damage, float movementSpeed, bool canBounce = false);
 	}
 }
